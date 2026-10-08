@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Upload, X, SlidersHorizontal, ArrowRight, Loader2 } from 'lucide-react';
+import { Upload, X, SlidersHorizontal, ArrowRight, Loader2, Sparkles, Film, Tag, Globe, Image as ImageIcon } from 'lucide-react';
 
 interface SearchSectionProps {
   onSearch: (params: {
@@ -29,9 +29,10 @@ export const SearchSection: React.FC<SearchSectionProps> = ({
   filteredDuplicates = 0,
   isVerified = false,
 }) => {
-  const [activeTab, setActiveTab] = useState<'keyword' | 'url' | 'image'>('keyword');
+  const [activeTab, setActiveTab] = useState<'keyword' | 'url' | 'video_url' | 'image'>('keyword');
   const [keyword, setKeyword] = useState('');
   const [productUrl, setProductUrl] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [includeTikTok, setIncludeTikTok] = useState(false);
   const [minMatchThreshold, setMinMatchThreshold] = useState(60);
@@ -64,11 +65,12 @@ export const SearchSection: React.FC<SearchSectionProps> = ({
 
     if (activeTab === 'keyword' && !keyword.trim()) return;
     if (activeTab === 'url' && !productUrl.trim()) return;
+    if (activeTab === 'video_url' && !videoUrl.trim()) return;
     if (activeTab === 'image' && !imagePreview) return;
 
     onSearch({
       query: activeTab === 'keyword' ? keyword : undefined,
-      url: activeTab === 'url' ? productUrl : undefined,
+      url: activeTab === 'url' ? productUrl : (activeTab === 'video_url' ? videoUrl : undefined),
       imageBase64: activeTab === 'image' ? imagePreview || undefined : undefined,
       includeTikTok,
       minMatchThreshold,
@@ -92,7 +94,9 @@ export const SearchSection: React.FC<SearchSectionProps> = ({
       <div>
         {/* Search Input Box */}
         <div className="mb-10">
-          <span className="label-mono block mb-2">Product Identification</span>
+          <div className="flex items-center justify-between mb-2">
+            <span className="label-mono">Product Identification</span>
+          </div>
 
           <form onSubmit={handleTriggerSearch}>
             {activeTab === 'keyword' && (
@@ -137,6 +141,27 @@ export const SearchSection: React.FC<SearchSectionProps> = ({
               </div>
             )}
 
+            {activeTab === 'video_url' && (
+              <div className="relative">
+                <input
+                  type="url"
+                  value={videoUrl}
+                  onChange={(e) => setVideoUrl(e.target.value)}
+                  placeholder="https://instagram.com/reel/... or Meta Ad URL"
+                  className="w-full border-none border-b border-[#1a1a1a] py-3 font-mono-space text-xs text-[#1a1a1a] placeholder:text-[rgba(26,26,26,0.4)] bg-transparent outline-none"
+                />
+                {videoUrl && (
+                  <button
+                    type="button"
+                    onClick={() => setVideoUrl('')}
+                    className="absolute right-0 top-3 text-[rgba(26,26,26,0.4)] hover:text-[#1a1a1a]"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            )}
+
             {activeTab === 'image' && (
               <div className="pt-2">
                 <input
@@ -170,24 +195,32 @@ export const SearchSection: React.FC<SearchSectionProps> = ({
               </div>
             )}
 
-            {/* Execute Search Button */}
-            <button
-              type="submit"
-              disabled={isLoading || (activeTab === 'keyword' && !keyword.trim()) || (activeTab === 'url' && !productUrl.trim()) || (activeTab === 'image' && !imagePreview)}
-              className="mt-4 w-full bg-[#1a1a1a] hover:bg-[#333333] text-white py-3.5 font-mono-space text-xs uppercase tracking-wider transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  <span>Processing Pipeline...</span>
-                </>
-              ) : (
-                <span>Execute Search Pipeline</span>
-              )}
-            </button>
+            {/* Action Buttons: Execute Pipeline */}
+            <div className="mt-4">
+              <button
+                type="submit"
+                disabled={
+                  isLoading ||
+                  (activeTab === 'keyword' && !keyword.trim()) ||
+                  (activeTab === 'url' && !productUrl.trim()) ||
+                  (activeTab === 'video_url' && !videoUrl.trim()) ||
+                  (activeTab === 'image' && !imagePreview)
+                }
+                className="w-full bg-[#1a1a1a] hover:bg-[#333333] text-white py-3.5 font-mono-space text-xs uppercase tracking-wider transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Processing Pipeline...</span>
+                  </>
+                ) : (
+                  <span>Execute Search Pipeline</span>
+                )}
+              </button>
+            </div>
 
             {/* Input Mode Selector */}
-            <div className="flex items-center justify-center gap-5 mt-4">
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
               <button
                 type="button"
                 onClick={() => setActiveTab('keyword')}
@@ -205,6 +238,15 @@ export const SearchSection: React.FC<SearchSectionProps> = ({
                 }`}
               >
                 By URL
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('video_url')}
+                className={`label-mono text-[0.62rem] transition cursor-pointer ${
+                  activeTab === 'video_url' ? 'text-[#1a1a1a] font-bold underline text-blue-700' : 'opacity-40 hover:opacity-80'
+                }`}
+              >
+                By Video URL
               </button>
               <button
                 type="button"

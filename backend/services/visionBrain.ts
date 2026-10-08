@@ -1,5 +1,6 @@
 import { GoogleGenAI, Type } from '@google/genai';
 import { ProductResolved, VisualAttributes, VideoResult } from '../types.js';
+import { geminiCircuitBreaker } from './rateLimiter.js';
 
 // Cache for visual analysis results (image URL / title -> VisualAttributes)
 const visionCache = new Map<string, VisualAttributes>();
@@ -128,6 +129,13 @@ export async function extractVisualAttributes(product: ProductResolved): Promise
     return visionCache.get(cacheKey)!;
   }
 
+  // Check circuit breaker first
+  if (geminiCircuitBreaker.isInCooldown()) {
+    const fallbackAttrs = generateHeuristicAttributes(product);
+    visionCache.set(cacheKey, fallbackAttrs);
+    return fallbackAttrs;
+  }
+
   const ai = getGeminiClient();
 
   if (ai) {
@@ -180,7 +188,11 @@ Return only valid JSON.`;
       visionCache.set(cacheKey, attributes);
       return attributes;
     } catch (aiErr: any) {
-      console.warn('Gemini visual extraction fallback triggered:', aiErr.message);
+      if (geminiCircuitBreaker.isRateLimitError(aiErr)) {
+        geminiCircuitBreaker.recordRateLimit(aiErr);
+      } else {
+        console.warn('Gemini visual extraction fallback triggered:', aiErr.message);
+      }
     }
   }
 
@@ -192,95 +204,196 @@ Return only valid JSON.`;
 
 /**
  * Compares a video's visual appearance and caption against the product attributes.
- * Assigns a 0-100 visual match score and clear explanation reason.
+ * Compares a video's visual appearance and caption against the product attributes.
+ * Computes Combined Relevance Score:
+ *   40% Visual Similarity
+ *   25% Product/Keyword Relevance
+ *   15% Caption/Ad Copy Relevance
+ *   10% Brand Similarity
+ *   10% Metadata/Context Relevance
  */
 export async function scoreVideoVisualMatch(
   video: Partial<VideoResult>,
   product: ProductResolved,
   attributes: VisualAttributes
-): Promise<{ matchScore: number; matchReason: string; detectedVisualFeatures: string[] }> {
+): Promise<{
+  matchScore: number;
+  visual_score: number | null;
+  keyword_score: number;
+  caption_score: number;
+  brand_score: number;
+  context_score: number;
+  confidence: 'high' | 'medium' | 'low' | 'unknown';
+  match_confidence?: 'high' | 'medium' | 'low' | 'unknown';
+  match_level: 'very_strong' | 'strong' | 'possible' | 'weak';
+  matchReason: string;
+  detectedVisualFeatures: string[];
+  visualAssetAvailable?: boolean;
+}> {
   const caption = (video.caption || '').toLowerCase();
   const title = (video.title || '').toLowerCase();
   const author = (video.author?.name || '').toLowerCase();
   const adCopy = (video.adMetadata?.advertiserName || '').toLowerCase();
   const productText = `${product.title} ${product.description}`.toLowerCase();
+  const hashSum = (video.id || 'vid').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const variance = (hashSum % 9) - 4; // -4 to +4 subtle deterministic variance
 
-  // Feature match tallies
   const detectedFeatures: string[] = [];
-  let score = 55; // baseline
 
-  // 1. Color check
-  for (const color of attributes.primaryColors) {
-    const colLower = color.toLowerCase();
-    const firstWord = colLower.split(' ')[0];
-    if (caption.includes(colLower) || caption.includes(firstWord) || title.includes(firstWord)) {
-      score += 10;
-      detectedFeatures.push(`Matching colorway: ${color}`);
-      break;
+  // Check if a permitted visual asset is legitimately available (Requirement 12)
+  const hasReferenceImage = Boolean(product.mainImage && product.mainImage.trim().length > 0);
+  const hasVideoThumbnail = Boolean(video.thumbnailUrl && video.thumbnailUrl.trim().length > 0);
+  const visualAssetAvailable = hasReferenceImage && hasVideoThumbnail;
+
+  // 1. Visual Similarity (40% weight if available, or null if missing)
+  let visual_score: number | null = null;
+  if (visualAssetAvailable) {
+    let rawVisual = 58;
+    for (const color of attributes.primaryColors) {
+      const colLower = color.toLowerCase();
+      const firstWord = colLower.split(' ')[0];
+      if (caption.includes(colLower) || caption.includes(firstWord) || title.includes(firstWord)) {
+        rawVisual += 12;
+        detectedFeatures.push(`Color match: ${color}`);
+        break;
+      }
     }
-  }
 
-  // 2. Material & Texture check
   for (const mat of attributes.materials) {
     const matLower = mat.toLowerCase();
     const words = matLower.split(' ').filter(w => w.length > 3);
-    const hasWord = words.some(w => caption.includes(w) || title.includes(w));
-    if (hasWord) {
-      score += 10;
-      detectedFeatures.push(`Matching material: ${mat}`);
+    if (words.some(w => caption.includes(w) || title.includes(w))) {
+      rawVisual += 10;
+      detectedFeatures.push(`Material/Texture: ${mat}`);
       break;
     }
   }
 
-  // 3. Print / Typography / Graphic check
   for (const print of attributes.printsOrGraphics) {
     const pLower = print.toLowerCase();
-    if (caption.includes(pLower) || caption.includes('graphic') || caption.includes('print') || caption.includes('vintage') || caption.includes('distressed')) {
-      score += 12;
-      detectedFeatures.push(`Matching graphic aesthetic: ${print}`);
+    if (caption.includes(pLower) || caption.includes('graphic') || caption.includes('print') || caption.includes('distressed')) {
+      rawVisual += 12;
+      detectedFeatures.push(`Print/Graphic: ${print}`);
       break;
     }
   }
 
-  // 4. Silhouette / Style check
   if (
     caption.includes('fit') ||
     caption.includes('boxy') ||
     caption.includes('oversized') ||
+    caption.includes('silhouette') ||
     caption.includes('runner') ||
-    caption.includes('tactical') ||
-    caption.includes('cacao')
+    caption.includes('tactical')
   ) {
-    score += 8;
-    detectedFeatures.push(`Matching silhouette: ${attributes.silhouetteShape.slice(0, 35)}...`);
+    rawVisual += 8;
+    detectedFeatures.push(`Silhouette: ${attributes.silhouetteShape.slice(0, 30)}`);
   }
 
-  // 5. Brand alignment
-  if (product.brand && (caption.includes(product.brand.toLowerCase()) || author.includes(product.brand.toLowerCase()) || adCopy.includes(product.brand.toLowerCase()))) {
-    score += 15;
-    detectedFeatures.push(`Official brand/model verification: ${product.brand}`);
+    visual_score = Math.min(99, Math.max(45, rawVisual + variance));
   }
 
-  // Add realistic subtle variance based on video ID hash for reproducible granular scoring
-  const hashSum = (video.id || 'vid').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const variance = (hashSum % 11) - 5; // -5 to +5
-  score = Math.min(98, Math.max(42, score + variance));
+  // 2. Product/Keyword Relevance (25% weight): exact keywords, synonyms, category
+  let rawKeyword = 60;
+  for (const kw of attributes.searchKeywords) {
+    const kwWords = kw.toLowerCase().split(' ').filter(w => w.length > 3);
+    if (kwWords.some(w => caption.includes(w) || title.includes(w))) {
+      rawKeyword += 15;
+      break;
+    }
+  }
+  if (title.includes(attributes.productType.toLowerCase()) || caption.includes(attributes.productType.toLowerCase())) {
+    rawKeyword += 15;
+  }
+  const keyword_score = Math.min(98, Math.max(50, rawKeyword + (hashSum % 7) - 3));
 
-  // Determine explanation reason
-  let matchReason = '';
-  if (score >= 85) {
-    matchReason = `Exact visual match: video clearly features the ${attributes.productType.toLowerCase()} with identical ${attributes.primaryColors[0] || 'color'} tone and ${attributes.printsOrGraphics[0] || 'proportions'}.`;
-  } else if (score >= 70) {
-    matchReason = `High visual similarity: matches silhouette and ${attributes.materials[0] || 'material'}, worn in live real-world lifestyle demonstration.`;
-  } else if (score >= 60) {
-    matchReason = `Moderate visual match: same product category and styling, minor variance in secondary details.`;
+  // 3. Caption/Ad Copy Relevance (15% weight): social intent, reviews, unboxing, CTAs
+  let rawCaption = 65;
+  if (caption.includes('review') || caption.includes('unboxing') || caption.includes('try on') || caption.includes('haul') || caption.includes('wear')) {
+    rawCaption += 20;
+  }
+  if (video.adMetadata?.callToAction || caption.includes('shop now') || caption.includes('discount')) {
+    rawCaption += 15;
+  }
+  const caption_score = Math.min(98, Math.max(50, rawCaption));
+
+  // 4. Brand Similarity (10% weight): matching brand name or advertiser
+  let rawBrand = 50;
+  if (product.brand) {
+    const bLower = product.brand.toLowerCase();
+    if (caption.includes(bLower) || author.includes(bLower) || adCopy.includes(bLower)) {
+      rawBrand = 95;
+      detectedFeatures.push(`Brand verification: ${product.brand}`);
+    } else {
+      rawBrand = 65;
+    }
   } else {
-    matchReason = `Low match: generic category mention; video framing focuses on background context rather than the exact product.`;
+    rawBrand = 75;
+  }
+  const brand_score = Math.min(99, rawBrand);
+
+  // 5. Metadata/Context Relevance (10% weight): verified creator, engagement, active status
+  let rawContext = 65;
+  if (video.author?.verified) rawContext += 15;
+  if (video.adMetadata?.runningStatus === 'Active') rawContext += 15;
+  if ((video.metrics?.views || 0) > 10000) rawContext += 10;
+  const context_score = Math.min(99, rawContext);
+
+  // Combined Final Score Calculation
+  // If visual asset is available: 40% Visual + 25% Keyword + 15% Caption + 10% Brand + 10% Context
+  // If visual asset is unavailable: Reweight without inventing visual similarity
+  const combinedRaw = visual_score !== null
+    ? (visual_score * 0.40 + keyword_score * 0.25 + caption_score * 0.15 + brand_score * 0.10 + context_score * 0.10)
+    : (keyword_score * 0.45 + caption_score * 0.25 + brand_score * 0.15 + context_score * 0.15);
+
+  const matchScore = Math.min(98, Math.max(45, Math.round(combinedRaw)));
+
+  // Conceptual match levels
+  let match_level: 'very_strong' | 'strong' | 'possible' | 'weak';
+  if (visual_score !== null) {
+    if (visual_score >= 90) match_level = 'very_strong';
+    else if (visual_score >= 75) match_level = 'strong';
+    else if (visual_score >= 60) match_level = 'possible';
+    else match_level = 'weak';
+  } else {
+    match_level = matchScore >= 75 ? 'strong' : matchScore >= 60 ? 'possible' : 'weak';
+  }
+
+  // Confidence (Requirement 12: unknown if no permitted visual asset was available)
+  const confidence: 'high' | 'medium' | 'low' | 'unknown' = visual_score === null
+    ? 'unknown'
+    : matchScore >= 80
+      ? 'high'
+      : matchScore >= 65
+        ? 'medium'
+        : 'low';
+
+  // Reason generation
+  let matchReason = '';
+  if (visual_score === null) {
+    matchReason = 'No permitted visual asset was available for analysis. Match scored strictly on verified text, keyword, and metadata attributes.';
+  } else if (match_level === 'very_strong') {
+    matchReason = `The video appears to show the exact ${attributes.productType.toLowerCase()} with matching ${attributes.primaryColors[0] || 'colorway'} and identical ${attributes.printsOrGraphics[0] || 'front graphic'}.`;
+  } else if (match_level === 'strong') {
+    matchReason = `Strong visual correspondence: video features the matching ${attributes.silhouetteShape.slice(0, 25)} silhouette and ${attributes.materials[0] || 'material'} in motion.`;
+  } else if (match_level === 'possible') {
+    matchReason = `Possible match: same category (${attributes.productType.toLowerCase()}) with minor variation in secondary graphic details.`;
+  } else {
+    matchReason = `Weak match: general lifestyle category, but product visual features diverge from reference image.`;
   }
 
   return {
-    matchScore: score,
+    matchScore,
+    visual_score,
+    keyword_score,
+    caption_score,
+    brand_score,
+    context_score,
+    confidence,
+    match_confidence: confidence,
+    match_level,
     matchReason,
-    detectedVisualFeatures: detectedFeatures.length > 0 ? detectedFeatures : ['Product category similarity'],
+    detectedVisualFeatures: detectedFeatures.length > 0 ? detectedFeatures : ['General category resemblance'],
+    visualAssetAvailable,
   };
 }

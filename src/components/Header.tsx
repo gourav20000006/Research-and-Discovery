@@ -7,6 +7,7 @@ interface HeaderProps {
   onOpenHistory: () => void;
   onOpenBookmarks: () => void;
   onOpenTestEvidence: () => void;
+  onOpenAIInspector?: () => void;
   onResetSeenCache: () => void;
   isResetting?: boolean;
 }
@@ -49,6 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
           <span>Shortlist</span>
           {bookmarkCount > 0 && <span>({bookmarkCount})</span>}
         </button>
+
 
         <button
           onClick={onOpenTestEvidence}

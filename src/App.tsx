@@ -13,6 +13,7 @@ import { VideoPlayerModal } from './components/VideoPlayerModal.tsx';
 import { HistoryDrawer } from './components/HistoryDrawer.tsx';
 import { TestEvidenceModal } from './components/TestEvidenceModal.tsx';
 import { ShortlistModal } from './components/ShortlistModal.tsx';
+import { ViewCountDistributionChart } from './components/ViewCountDistributionChart.tsx';
 import {
   SearchRecord,
   VideoResult,
@@ -28,6 +29,10 @@ import {
   Search as SearchIcon,
   AlertCircle,
   Video,
+  ShieldCheck,
+  Info,
+  CheckCircle2,
+  Layers,
 } from 'lucide-react';
 
 export default function App() {
@@ -372,13 +377,82 @@ export default function App() {
                 </h3>
                 <div className="flex items-center gap-3">
                   <span className="label-mono">
-                    {processedVideos.length} Results Found
+                    {processedVideos.length} Legitimate Results Found
                   </span>
-                  <span className="label-mono font-bold text-emerald-700">
-                    (≥ 40 Met)
+                  <span className={`label-mono font-bold ${
+                    currentIgCount >= 20 && currentMetaCount >= 20 ? 'text-emerald-700' : 'text-amber-700'
+                  }`}>
+                    {currentIgCount >= 20 && currentMetaCount >= 20 ? '(Target Met)' : '(Partial Legitimate)'}
                   </span>
                 </div>
               </div>
+
+              {/* Provider Availability & Provenance Status Bar */}
+              <div className="bg-[#f3f2ee] border border-[rgba(26,26,26,0.1)] p-4 space-y-3">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <span className="label-mono text-[0.68rem] text-[#1a1a1a] flex items-center gap-1.5 font-bold">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+                    API Availability & Provenance Status
+                  </span>
+                  <span className="font-mono-space text-[0.62rem] text-[rgba(26,26,26,0.6)]">
+                    Anti-Fabrication Policy: Strict Real Discovery
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  {/* Meta Ad Library Provider Status */}
+                  <div className="bg-white p-3 border border-[rgba(26,26,26,0.08)] flex flex-col justify-between">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono-space text-[0.68rem] font-bold text-[#1a1a1a]">
+                        Meta Ad Library
+                      </span>
+                      <span className="font-mono-space text-[0.6rem] px-1.5 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-200">
+                        {currentRecord.metaReport?.status || 'AVAILABLE'}
+                      </span>
+                    </div>
+                    <div className="text-[0.72rem] text-[rgba(26,26,26,0.7)] mt-1 font-mono-space">
+                      Source: {currentRecord.metaReport?.sourceLabel || 'Meta Ad Library — Public Library'}
+                    </div>
+                    <div className="flex items-center justify-between text-[0.68rem] font-mono-space text-[rgba(26,26,26,0.6)] mt-2 pt-2 border-t border-[rgba(26,26,26,0.06)]">
+                      <span>Found: <strong className="text-[#1a1a1a]">{currentMetaCount}</strong></span>
+                      <span>Target: 20</span>
+                    </div>
+                  </div>
+
+                  {/* Instagram Reels Provider Status */}
+                  <div className="bg-white p-3 border border-[rgba(26,26,26,0.08)] flex flex-col justify-between">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono-space text-[0.68rem] font-bold text-[#1a1a1a]">
+                        Instagram Reels
+                      </span>
+                      <span className="font-mono-space text-[0.6rem] px-1.5 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-200">
+                        {currentRecord.instagramReport?.status || 'AVAILABLE'}
+                      </span>
+                    </div>
+                    <div className="text-[0.72rem] text-[rgba(26,26,26,0.7)] mt-1 font-mono-space">
+                      Source: {currentRecord.instagramReport?.sourceLabel || 'Instagram — Approved Data Provider'}
+                    </div>
+                    <div className="flex items-center justify-between text-[0.68rem] font-mono-space text-[rgba(26,26,26,0.6)] mt-2 pt-2 border-t border-[rgba(26,26,26,0.06)]">
+                      <span>Found: <strong className="text-[#1a1a1a]">{currentIgCount}</strong></span>
+                      <span>Target: 20</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Summary Notice if Partial or Fallback used */}
+                {currentRecord.summaryNotice && (
+                  <div className="bg-amber-50/70 border border-amber-200 p-2.5 flex items-start gap-2 text-[0.72rem] text-amber-900 leading-relaxed font-mono-space">
+                    <Info className="w-3.5 h-3.5 shrink-0 text-amber-700 mt-0.5" />
+                    <div>{currentRecord.summaryNotice}</div>
+                  </div>
+                )}
+              </div>
+
+              {/* View Count Distribution Recharts Line Chart */}
+              <ViewCountDistributionChart
+                videos={currentRecord.results}
+                onSelectVideo={setActivePreviewVideo}
+              />
 
               {/* Filter and Sorting Controls */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 py-2 border-b border-[rgba(26,26,26,0.08)]">
@@ -555,6 +629,7 @@ export default function App() {
         onRemoveBookmark={handleToggleBookmark}
         onPlayPreview={setActivePreviewVideo}
       />
+
     </div>
   );
 }

@@ -3,11 +3,20 @@
   "services": {
     "app": {
       "root": ".",
-      "framework": "vite"
+      "framework": "vite",
+      "bindings": [
+        {
+          "type": "service",
+          "service": "backend",
+          "format": "url",
+          "env": "BACKEND_URL"
+        }
+      ]
     },
     "backend": {
       "root": "backend",
-      "framework": "node"
+      "framework": "express",
+      "entrypoint": "server.ts"
     }
   },
   "rewrites": [

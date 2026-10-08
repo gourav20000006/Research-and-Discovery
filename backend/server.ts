@@ -4,12 +4,14 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import crypto from 'crypto';
-import { resolveProduct } from './services/resolver.js';
+import { resolveProduct, createProductSearchContext } from './services/resolver.js';
 import { extractVisualAttributes } from './services/visionBrain.js';
 import { collectAllVideoSources, collectPlatformVideos } from './services/videoCollector.js';
 import { deduplicateVideos, clearSeenCache, getDeduplicationStats } from './services/deduplicator.js';
 import { saveSearchRecord, getSearchRecord, getAllSearches, clearSearchHistory, toggleBookmarkVideo, getBookmarks, TEST_EVIDENCE_RECORDS } from './services/db.js';
-import { SearchRecord, PipelineProgressEvent, VideoResult } from './types.js';
+import { executeDiscoveryAgents } from './services/agents/aiAgentDiscovery.js';
+import { inspectDetailsFromInternet } from './services/aiInternetInspector.js';
+import { SearchRecord, PipelineProgressEvent, VideoResult, AIInspectionRequest } from './types.js';
 
 dotenv.config();
 
@@ -39,6 +41,11 @@ export function createExpressApp() {
       });
     }
   }
+
+  // Dedicated health check endpoint
+  app.get('/api/health', (_req, res) => {
+    res.json({ success: true, service: 'backend', status: 'healthy' });
+  });
 
   // 1. SSE Stream endpoint for live pipeline progress
   app.get('/api/search/:id/stream', (req, res) => {
@@ -77,10 +84,51 @@ export function createExpressApp() {
     }
   });
 
-  // 3. Full Search Pipeline Orchestrator
+  // 2.5 AI Internet Deep Inspector & Media Extractor (By Video URL, Image, or Name)
+  app.post('/api/ai/inspect', async (req, res) => {
+    try {
+      const { inputType, videoUrl, imageBase64, imageUrl, name, aiProvider, customOpenAiKey } = req.body;
+      if (!inputType) {
+        return res.status(400).json({
+          success: false,
+          error: "Missing required parameter 'inputType' ('video_url' | 'image' | 'name').",
+        });
+      }
+
+      if (inputType === 'video_url' && !videoUrl) {
+        return res.status(400).json({ success: false, error: 'Please provide a valid video URL.' });
+      }
+      if (inputType === 'image' && !imageBase64 && !imageUrl) {
+        return res.status(400).json({ success: false, error: 'Please provide an image file or image URL.' });
+      }
+      if (inputType === 'name' && !name) {
+        return res.status(400).json({ success: false, error: 'Please provide a product name or keyword.' });
+      }
+
+      const inspection = await inspectDetailsFromInternet({
+        inputType,
+        videoUrl,
+        imageBase64,
+        imageUrl,
+        name,
+        aiProvider: aiProvider || 'gemini',
+        customOpenAiKey,
+      });
+
+      res.json(inspection);
+    } catch (err: any) {
+      console.error('AI Inspection error:', err);
+      res.status(500).json({
+        success: false,
+        error: err.message || 'Failed to inspect details from the internet.',
+      });
+    }
+  });
+
+  // 3. Full Search Pipeline Orchestrator with AI Agents & Fallback Architecture
   app.post('/api/search', async (req, res) => {
     const searchId = `search_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;
-    const { query, url, imageBase64, includeTikTok, minMatchThreshold = 60 } = req.body;
+    const { query, url, imageBase64, includeTikTok, minMatchThreshold = 55 } = req.body;
 
     if (!query && !url && !imageBase64) {
       return res.status(400).json({
@@ -93,7 +141,7 @@ export function createExpressApp() {
       // Step 1: Resolve Product & SSRF verification
       broadcastSSE(searchId, {
         step: 'resolving',
-        progressPercent: 15,
+        progressPercent: 10,
         message: url ? `Validating URL and scraping product page metadata...` : `Resolving product specifications for '${query || 'Visual Input'}'...`,
       });
 
@@ -102,119 +150,56 @@ export function createExpressApp() {
       // Step 2: Vision Brain Attribute Extraction
       broadcastSSE(searchId, {
         step: 'vision_analysis',
-        progressPercent: 35,
-        message: `Vision Brain analyzing product aesthetics (silhouette, colors, materials, graphics)...`,
+        progressPercent: 25,
+        message: `Vision Brain extracting aesthetics (silhouette, colors, materials, graphics)...`,
       });
 
       const attributes = await extractVisualAttributes(product);
+      const productContext = createProductSearchContext(product, attributes.searchKeywords);
 
-      // Step 3: Parallel Video Sourcing (Instagram Reels & Meta Ad Library + optional TikTok)
-      broadcastSSE(searchId, {
-        step: 'collecting_instagram',
-        progressPercent: 55,
-        message: `Querying Instagram Reels API & Meta Ad Library in parallel (20+ target each)...`,
-      });
-
-      const sourcing = await collectAllVideoSources(product, attributes, {
+      // Step 3: Run AI Agent Discovery Pipeline with Fallback Priority & Rate-Limiter
+      const agentResult = await executeDiscoveryAgents({
+        product,
+        context: productContext,
+        attributes,
         includeTikTok: Boolean(includeTikTok),
-        minPerRequiredSource: 20,
-        onProgress: (platform, msg) => {
-          broadcastSSE(searchId, {
-            step: platform === 'instagram' ? 'collecting_instagram' : 'collecting_meta',
-            progressPercent: 65,
-            message: msg,
-          });
-        },
+        minMatchThreshold: Number(minMatchThreshold) || 55,
+        onProgress: (event) => broadcastSSE(searchId, event),
       });
 
-      // Combine raw candidates
-      const rawCandidates: VideoResult[] = [
-        ...sourcing.instagramVideos,
-        ...sourcing.metaVideos,
-        ...sourcing.tiktokVideos,
-      ];
-
-      // Step 4: De-duplication and Cross-Search History Filtering
-      broadcastSSE(searchId, {
-        step: 'deduplicating',
-        progressPercent: 80,
-        message: `Filtering cross-search history duplicates, canonical media hashes, and ad variants...`,
-      });
-
-      const deduplicated = deduplicateVideos(rawCandidates, searchId, query || product.title);
-
-      // Check if deduplication caused a shortfall below 20 for either required source
-      let finalUniqueResults = deduplicated.freshUniqueResults;
-      let igCount = finalUniqueResults.filter(v => v.platform === 'instagram').length;
-      let metaCount = finalUniqueResults.filter(v => v.platform === 'meta').length;
-
-      // Query Expansion fallback if deduplication dropped below minimum
-      if (igCount < 20) {
-        broadcastSSE(searchId, {
-          step: 'collecting_instagram',
-          progressPercent: 85,
-          message: `Instagram Reels deduplication left ${igCount}/20. Expanding query with secondary hashtags...`,
-        });
-        const additionalIg = await collectPlatformVideos('instagram', product, attributes, 20 - igCount);
-        const secondDedup = deduplicateVideos(additionalIg, searchId, query || product.title);
-        finalUniqueResults.push(...secondDedup.freshUniqueResults);
-      }
-
-      if (metaCount < 20) {
-        broadcastSSE(searchId, {
-          step: 'collecting_meta',
-          progressPercent: 88,
-          message: `Meta Ad Library deduplication left ${metaCount}/20. Widening query to brand variations...`,
-        });
-        const additionalMeta = await collectPlatformVideos('meta', product, attributes, 20 - metaCount);
-        const secondDedup = deduplicateVideos(additionalMeta, searchId, query || product.title);
-        finalUniqueResults.push(...secondDedup.freshUniqueResults);
-      }
-
-      // Step 5: Scoring verification and Ranking
-      broadcastSSE(searchId, {
-        step: 'scoring',
-        progressPercent: 95,
-        message: `Ranking verified videos by visual match score (0-100) and threshold filter...`,
-      });
-
-      // Recount platforms
-      const finalIg = finalUniqueResults.filter(v => v.platform === 'instagram').length;
-      const finalMeta = finalUniqueResults.filter(v => v.platform === 'meta').length;
-      const finalTikTok = finalUniqueResults.filter(v => v.platform === 'tiktok').length;
-
-      // Attach previously seen items to record (marked so UI can toggle them)
-      const allReturnedVideos = [
-        ...finalUniqueResults,
-        ...deduplicated.previouslySeenResults,
-      ];
+      const finalIg = agentResult.results.filter(v => v.platform === 'instagram').length;
+      const finalMeta = agentResult.results.filter(v => v.platform === 'meta').length;
+      const finalTikTok = agentResult.results.filter(v => v.platform === 'tiktok').length;
 
       const record: SearchRecord = {
         id: searchId,
         query: query || product.title,
         url,
         product,
+        productContext,
         attributes,
-        totalVideos: allReturnedVideos.length,
+        totalVideos: agentResult.results.length,
         instagramCount: finalIg,
         metaCount: finalMeta,
         tiktokCount: finalTikTok,
-        filteredDuplicatesCount: deduplicated.internalDuplicatesCount + deduplicated.previouslySeenResults.length,
-        results: allReturnedVideos,
+        filteredDuplicatesCount: agentResult.dedupStats?.crossSearchDuplicates || 0,
+        results: agentResult.results,
+        instagramReport: agentResult.instagram,
+        metaReport: agentResult.meta_ads,
+        summaryNotice: agentResult.summaryNotice,
         createdAt: new Date().toISOString(),
       };
 
       saveSearchRecord(record);
 
-      broadcastSSE(searchId, {
-        step: 'complete',
-        progressPercent: 100,
-        message: `Discovered ${finalIg} Instagram Reels and ${finalMeta} Meta Ads (${record.filteredDuplicatesCount} duplicates filtered).`,
-      });
-
       res.json({
         success: true,
         searchId,
+        search_status: agentResult.search_status,
+        summaryNotice: agentResult.summaryNotice,
+        instagram: agentResult.instagram,
+        meta_ads: agentResult.meta_ads,
+        provenanceBreakdown: agentResult.provenanceBreakdown,
         record,
       });
     } catch (err: any) {

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Node.js backend for Product Video Discovery automation pipeline",
+  "main": "index.ts",
   "scripts": {
     "dev": "tsx server.ts",
     "build": "echo 'Backend build complete'",

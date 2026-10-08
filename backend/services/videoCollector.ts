@@ -243,16 +243,30 @@ export async function collectPlatformVideos(
       const hash = computeVideoContentHash(platform, candidate.id!, candidate.videoUrl!, candidate.caption!);
 
       // Score against product visual attributes
-      const { matchScore, matchReason, detectedVisualFeatures } = await scoreVideoVisualMatch(
-        candidate,
-        product,
-        attributes
-      );
+      const {
+        matchScore,
+        visual_score,
+        keyword_score,
+        caption_score,
+        brand_score,
+        context_score,
+        confidence,
+        match_level,
+        matchReason,
+        detectedVisualFeatures,
+      } = await scoreVideoVisualMatch(candidate, product, attributes);
 
       const fullVideo: VideoResult = {
         ...(candidate as VideoResult),
         contentHash: hash,
         matchScore,
+        visual_score,
+        keyword_score,
+        caption_score,
+        brand_score,
+        context_score,
+        confidence,
+        match_level,
         matchReason,
         detectedVisualFeatures,
         isMatch: matchScore >= 60,
