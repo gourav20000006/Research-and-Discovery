@@ -276,3 +276,14 @@ export function createExpressApp() {
 
   return app;
 }
+
+const app = createExpressApp();
+export default app;
+
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Backend server listening on port ${PORT}`);
+  });
+}
+
