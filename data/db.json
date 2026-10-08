@@ -1,0 +1,592 @@
+{
+  "searches": [
+    {
+      "id": "search_1791451427714_0acc9f1b",
+      "query": "oversized graphic tee",
+      "product": {
+        "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee",
+        "description": "280 GSM heavyweight washed cotton oversized drop-shoulder t-shirt featuring gothic typography and distressed angel wings graphic on chest and back.",
+        "mainImage": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80",
+        "brand": "Aesthetic Studios",
+        "price": "$48.00",
+        "isScraped": false
+      },
+      "attributes": {
+        "productType": "Oversized Streetwear T-Shirt",
+        "primaryColors": [
+          "Washed Charcoal",
+          "Vintage Grey",
+          "Off-White"
+        ],
+        "materials": [
+          "280 GSM Heavyweight Combed Cotton",
+          "Pre-shrunk Vintage Wash"
+        ],
+        "printsOrGraphics": [
+          "Distressed Gothic/Serif Chest Typography",
+          "Back Graphic Illustration"
+        ],
+        "logosOrText": [
+          "Distressed Serif Headline",
+          "EST. 1994 ATHLETICS"
+        ],
+        "silhouetteShape": "Boxy drop-shoulder silhouette, wide ribbed crewneck, extended sleeve length",
+        "targetAudience": "Streetwear, lifestyle, and direct-to-consumer buyers",
+        "searchKeywords": [
+          "vintage acid wash review reel",
+          "vintage acid wash styling haul",
+          "vintage acid wash unboxing aesthetic",
+          "vintage acid wash official commercial ad",
+          "oversized streetwear t-shirt try on"
+        ],
+        "instagramHashtags": [
+          "#vintage",
+          "#vintageacid",
+          "#productdiscovery",
+          "#reelsfashion",
+          "#unboxing",
+          "#streetwearstyle"
+        ],
+        "metaAdQueries": [
+          "vintage acid wash brand ad library",
+          "vintage acid wash limited drop discount",
+          "oversized streetwear t-shirt direct to consumer",
+          "vintage acid wash user generated content ad"
+        ]
+      },
+      "totalVideos": 15,
+      "instagramCount": 12,
+      "metaCount": 3,
+      "tiktokCount": 0,
+      "filteredDuplicatesCount": 44,
+      "results": [
+        {
+          "id": "ig_reel_10000000",
+          "platform": "instagram",
+          "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee - Reel #1",
+          "caption": "Unboxing the new Vintage Acid Wash Heavyweight Oversized Graphic Tee! The Washed Charcoal colorway in person is crazy 🔥 Quality on the 280 GSM Heavyweight Combed Cotton is insane. What do you think? #vintage #vintageacid #productdiscovery",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-young-man-wearing-a-hoodie-and-sunglasses-42995-large.mp4",
+          "sourceUrl": "https://www.instagram.com/reel/ig_reel_10000000/",
+          "author": {
+            "name": "Streetwear Archive",
+            "handle": "streetwearfits",
+            "verified": true,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=streetwearfits"
+          },
+          "metrics": {
+            "views": 12400,
+            "likes": 1200,
+            "comments": 42
+          },
+          "publishedAt": "2026-10-08T09:23:50.285Z",
+          "contentHash": "4a4d9bac856b9145",
+          "matchScore": 98,
+          "matchReason": "Exact visual match: video clearly features the oversized streetwear t-shirt with identical Washed Charcoal tone and Distressed Gothic/Serif Chest Typography.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Washed Charcoal",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography",
+            "Matching silhouette: Boxy drop-shoulder silhouette, wide..."
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "ig_reel_10019742",
+          "platform": "instagram",
+          "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee - Reel #3",
+          "caption": "Honest review of the Vintage Acid Wash Heavyweight Oversized Graphic Tee. The Boxy drop-shoulder silhouette, holds up after 5 washes. Worth the hype? #productdiscovery #unboxing",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-stylish-woman-in-fashion-clothes-41589-large.mp4",
+          "sourceUrl": "https://www.instagram.com/reel/ig_reel_10019742/",
+          "author": {
+            "name": "Aesthetic Lookbook",
+            "handle": "lookbook.daily",
+            "verified": true,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=lookbook.daily"
+          },
+          "metrics": {
+            "views": 20860,
+            "likes": 1960,
+            "comments": 66
+          },
+          "publishedAt": "2026-10-04T09:23:50.288Z",
+          "contentHash": "9217f9b7f371bc92",
+          "matchScore": 98,
+          "matchReason": "Exact visual match: video clearly features the oversized streetwear t-shirt with identical Washed Charcoal tone and Distressed Gothic/Serif Chest Typography.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Vintage Grey",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography",
+            "Matching silhouette: Boxy drop-shoulder silhouette, wide..."
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "ig_reel_10039484",
+          "platform": "instagram",
+          "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee - Reel #5",
+          "caption": "Finally arrived! The Distressed Gothic/Serif Chest Typography on this is so clean up close. Link in bio to cop before it sells out! #unboxing #streetwearstyle",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-woman-running-on-the-beach-in-the-morning-42993-large.mp4",
+          "sourceUrl": "https://www.instagram.com/reel/ig_reel_10039484/",
+          "author": {
+            "name": "Minimal Fits",
+            "handle": "minimalfits.io",
+            "verified": false,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=minimalfits.io"
+          },
+          "metrics": {
+            "views": 29320,
+            "likes": 2720,
+            "comments": 90
+          },
+          "publishedAt": "2026-09-30T09:23:50.288Z",
+          "contentHash": "13fdc89ad77dc051",
+          "matchScore": 85,
+          "matchReason": "Exact visual match: video clearly features the oversized streetwear t-shirt with identical Washed Charcoal tone and Distressed Gothic/Serif Chest Typography.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Vintage Grey",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography"
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "ig_reel_10059226",
+          "platform": "instagram",
+          "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee - Reel #7",
+          "caption": "Unboxing the new Vintage Acid Wash Heavyweight Oversized Graphic Tee! The Washed Charcoal colorway in person is crazy 🔥 Quality on the 280 GSM Heavyweight Combed Cotton is insane. What do you think? #vintage #vintageacid #productdiscovery",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-and-opening-a-luxury-box-42038-large.mp4",
+          "sourceUrl": "https://www.instagram.com/reel/ig_reel_10059226/",
+          "author": {
+            "name": "Urban Threads",
+            "handle": "urbanthreads_reels",
+            "verified": false,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=urbanthreads_reels"
+          },
+          "metrics": {
+            "views": 37780,
+            "likes": 3480,
+            "comments": 114
+          },
+          "publishedAt": "2026-09-26T09:23:50.290Z",
+          "contentHash": "e0b2a20b0eb488f8",
+          "matchScore": 98,
+          "matchReason": "Exact visual match: video clearly features the oversized streetwear t-shirt with identical Washed Charcoal tone and Distressed Gothic/Serif Chest Typography.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Washed Charcoal",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography",
+            "Matching silhouette: Boxy drop-shoulder silhouette, wide..."
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "ig_reel_10078968",
+          "platform": "instagram",
+          "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee - Reel #9",
+          "caption": "Honest review of the Vintage Acid Wash Heavyweight Oversized Graphic Tee. The Boxy drop-shoulder silhouette, holds up after 5 washes. Worth the hype? #productdiscovery #unboxing",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-man-tying-his-running-shoes-42991-large.mp4",
+          "sourceUrl": "https://www.instagram.com/reel/ig_reel_10078968/",
+          "author": {
+            "name": "Streetwear Archive",
+            "handle": "streetwearfits",
+            "verified": true,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=streetwearfits"
+          },
+          "metrics": {
+            "views": 46240,
+            "likes": 4240,
+            "comments": 138
+          },
+          "publishedAt": "2026-09-22T09:23:50.291Z",
+          "contentHash": "c3847a35ecc32d39",
+          "matchScore": 92,
+          "matchReason": "Exact visual match: video clearly features the oversized streetwear t-shirt with identical Washed Charcoal tone and Distressed Gothic/Serif Chest Typography.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Vintage Grey",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography",
+            "Matching silhouette: Boxy drop-shoulder silhouette, wide..."
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "ig_reel_10098710",
+          "platform": "instagram",
+          "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee - Reel #11",
+          "caption": "Finally arrived! The Distressed Gothic/Serif Chest Typography on this is so clean up close. Link in bio to cop before it sells out! #unboxing #streetwearstyle",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-traveler-with-a-backpack-walking-along-a-trail-42990-large.mp4",
+          "sourceUrl": "https://www.instagram.com/reel/ig_reel_10098710/",
+          "author": {
+            "name": "Aesthetic Lookbook",
+            "handle": "lookbook.daily",
+            "verified": true,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=lookbook.daily"
+          },
+          "metrics": {
+            "views": 54700,
+            "likes": 5000,
+            "comments": 162
+          },
+          "publishedAt": "2026-09-18T09:23:50.292Z",
+          "contentHash": "d72be7601821d18a",
+          "matchScore": 82,
+          "matchReason": "High visual similarity: matches silhouette and 280 GSM Heavyweight Combed Cotton, worn in live real-world lifestyle demonstration.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Vintage Grey",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography"
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "ig_reel_10118452",
+          "platform": "instagram",
+          "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee - Reel #13",
+          "caption": "Unboxing the new Vintage Acid Wash Heavyweight Oversized Graphic Tee! The Washed Charcoal colorway in person is crazy 🔥 Quality on the 280 GSM Heavyweight Combed Cotton is insane. What do you think? #vintage #vintageacid #productdiscovery",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-young-man-wearing-a-hoodie-and-sunglasses-42995-large.mp4",
+          "sourceUrl": "https://www.instagram.com/reel/ig_reel_10118452/",
+          "author": {
+            "name": "Minimal Fits",
+            "handle": "minimalfits.io",
+            "verified": false,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=minimalfits.io"
+          },
+          "metrics": {
+            "views": 63160,
+            "likes": 5760,
+            "comments": 186
+          },
+          "publishedAt": "2026-09-14T09:23:50.299Z",
+          "contentHash": "80ef6d10ce2e5af3",
+          "matchScore": 97,
+          "matchReason": "Exact visual match: video clearly features the oversized streetwear t-shirt with identical Washed Charcoal tone and Distressed Gothic/Serif Chest Typography.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Washed Charcoal",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography",
+            "Matching silhouette: Boxy drop-shoulder silhouette, wide..."
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "ig_reel_10138194",
+          "platform": "instagram",
+          "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee - Reel #15",
+          "caption": "Honest review of the Vintage Acid Wash Heavyweight Oversized Graphic Tee. The Boxy drop-shoulder silhouette, holds up after 5 washes. Worth the hype? #productdiscovery #unboxing",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-stylish-woman-in-fashion-clothes-41589-large.mp4",
+          "sourceUrl": "https://www.instagram.com/reel/ig_reel_10138194/",
+          "author": {
+            "name": "Urban Threads",
+            "handle": "urbanthreads_reels",
+            "verified": false,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=urbanthreads_reels"
+          },
+          "metrics": {
+            "views": 71620,
+            "likes": 6520,
+            "comments": 210
+          },
+          "publishedAt": "2026-09-10T09:23:50.299Z",
+          "contentHash": "1d21067bdd2a6ce5",
+          "matchScore": 91,
+          "matchReason": "Exact visual match: video clearly features the oversized streetwear t-shirt with identical Washed Charcoal tone and Distressed Gothic/Serif Chest Typography.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Vintage Grey",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography",
+            "Matching silhouette: Boxy drop-shoulder silhouette, wide..."
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "ig_reel_10157936",
+          "platform": "instagram",
+          "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee - Reel #17",
+          "caption": "Finally arrived! The Distressed Gothic/Serif Chest Typography on this is so clean up close. Link in bio to cop before it sells out! #unboxing #streetwearstyle",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-woman-running-on-the-beach-in-the-morning-42993-large.mp4",
+          "sourceUrl": "https://www.instagram.com/reel/ig_reel_10157936/",
+          "author": {
+            "name": "Streetwear Archive",
+            "handle": "streetwearfits",
+            "verified": true,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=streetwearfits"
+          },
+          "metrics": {
+            "views": 80080,
+            "likes": 7280,
+            "comments": 234
+          },
+          "publishedAt": "2026-09-06T09:23:50.299Z",
+          "contentHash": "3233907b16884bb7",
+          "matchScore": 88,
+          "matchReason": "Exact visual match: video clearly features the oversized streetwear t-shirt with identical Washed Charcoal tone and Distressed Gothic/Serif Chest Typography.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Vintage Grey",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography"
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "ig_reel_10177678",
+          "platform": "instagram",
+          "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee - Reel #19",
+          "caption": "Unboxing the new Vintage Acid Wash Heavyweight Oversized Graphic Tee! The Washed Charcoal colorway in person is crazy 🔥 Quality on the 280 GSM Heavyweight Combed Cotton is insane. What do you think? #vintage #vintageacid #productdiscovery",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-and-opening-a-luxury-box-42038-large.mp4",
+          "sourceUrl": "https://www.instagram.com/reel/ig_reel_10177678/",
+          "author": {
+            "name": "Aesthetic Lookbook",
+            "handle": "lookbook.daily",
+            "verified": true,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=lookbook.daily"
+          },
+          "metrics": {
+            "views": 88540,
+            "likes": 8040,
+            "comments": 258
+          },
+          "publishedAt": "2026-09-02T09:23:50.299Z",
+          "contentHash": "75f0885e61421822",
+          "matchScore": 90,
+          "matchReason": "Exact visual match: video clearly features the oversized streetwear t-shirt with identical Washed Charcoal tone and Distressed Gothic/Serif Chest Typography.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Washed Charcoal",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography",
+            "Matching silhouette: Boxy drop-shoulder silhouette, wide..."
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "ig_reel_10197420",
+          "platform": "instagram",
+          "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee - Reel #21",
+          "caption": "Honest review of the Vintage Acid Wash Heavyweight Oversized Graphic Tee. The Boxy drop-shoulder silhouette, holds up after 5 washes. Worth the hype? #productdiscovery #unboxing",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-man-tying-his-running-shoes-42991-large.mp4",
+          "sourceUrl": "https://www.instagram.com/reel/ig_reel_10197420/",
+          "author": {
+            "name": "Minimal Fits",
+            "handle": "minimalfits.io",
+            "verified": false,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=minimalfits.io"
+          },
+          "metrics": {
+            "views": 97000,
+            "likes": 8800,
+            "comments": 282
+          },
+          "publishedAt": "2026-08-29T09:23:50.299Z",
+          "contentHash": "54df392936a12042",
+          "matchScore": 98,
+          "matchReason": "Exact visual match: video clearly features the oversized streetwear t-shirt with identical Washed Charcoal tone and Distressed Gothic/Serif Chest Typography.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Vintage Grey",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography",
+            "Matching silhouette: Boxy drop-shoulder silhouette, wide..."
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "ig_reel_10217162",
+          "platform": "instagram",
+          "title": "Vintage Acid Wash Heavyweight Oversized Graphic Tee - Reel #23",
+          "caption": "Finally arrived! The Distressed Gothic/Serif Chest Typography on this is so clean up close. Link in bio to cop before it sells out! #unboxing #streetwearstyle",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-traveler-with-a-backpack-walking-along-a-trail-42990-large.mp4",
+          "sourceUrl": "https://www.instagram.com/reel/ig_reel_10217162/",
+          "author": {
+            "name": "Urban Threads",
+            "handle": "urbanthreads_reels",
+            "verified": false,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=urbanthreads_reels"
+          },
+          "metrics": {
+            "views": 105460,
+            "likes": 9560,
+            "comments": 306
+          },
+          "publishedAt": "2026-08-25T09:23:50.299Z",
+          "contentHash": "f0791e7c7fc21ca1",
+          "matchScore": 87,
+          "matchReason": "Exact visual match: video clearly features the oversized streetwear t-shirt with identical Washed Charcoal tone and Distressed Gothic/Serif Chest Typography.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Vintage Grey",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography"
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "meta_ad_300000000000000",
+          "platform": "meta",
+          "title": "Aesthetic Studios Sponsored Video Campaign",
+          "caption": "Back in stock for a limited time. The Vintage Acid Wash Heavyweight Oversized Graphic Tee engineered from 280 GSM Heavyweight Combed Cotton. Enjoy 15% off your first order today with code INTRO15. Free shipping over $75.",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1548907040-4baa42d10919?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-girl-showing-her-fashionable-clothes-41590-large.mp4",
+          "sourceUrl": "https://www.facebook.com/ads/library/?id=300000000000000",
+          "author": {
+            "name": "Aesthetic Studios",
+            "handle": "aesthetic_studios",
+            "verified": true,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=Aesthetic Studios"
+          },
+          "adMetadata": {
+            "adId": "300000000000000",
+            "advertiserName": "Aesthetic Studios",
+            "runningStatus": "Active",
+            "startedRunningDate": "Oct 8, 2026",
+            "platformsIncluded": [
+              "Facebook",
+              "Instagram",
+              "Audience Network",
+              "Messenger"
+            ],
+            "callToAction": "Shop Now"
+          },
+          "metrics": {
+            "views": 35000,
+            "likes": 2400
+          },
+          "publishedAt": "2026-10-08T09:23:50.301Z",
+          "contentHash": "2b4b674e9d300af0",
+          "matchScore": 98,
+          "matchReason": "Exact visual match: video clearly features the oversized streetwear t-shirt with identical Washed Charcoal tone and Distressed Gothic/Serif Chest Typography.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Vintage Grey",
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography",
+            "Matching silhouette: Boxy drop-shoulder silhouette, wide...",
+            "Official brand/model verification: Aesthetic Studios"
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "meta_ad_300000015308642",
+          "platform": "meta",
+          "title": "Studio Overcast Sponsored Video Campaign",
+          "caption": "Upgrade your daily essentials with the Off-White oversized streetwear t-shirt. Designed for maximum comfort, durability, and a modern aesthetic. Tap Shop Now.",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-girl-exercising-in-the-gym-42992-large.mp4",
+          "sourceUrl": "https://www.facebook.com/ads/library/?id=300000015308642",
+          "author": {
+            "name": "Studio Overcast",
+            "handle": "studio_overcast",
+            "verified": true,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=Studio Overcast"
+          },
+          "adMetadata": {
+            "adId": "300000015308642",
+            "advertiserName": "Studio Overcast",
+            "runningStatus": "Active",
+            "startedRunningDate": "Oct 2, 2026",
+            "platformsIncluded": [
+              "Facebook",
+              "Instagram",
+              "Audience Network",
+              "Messenger"
+            ],
+            "callToAction": "Learn More"
+          },
+          "metrics": {
+            "views": 49400,
+            "likes": 3220
+          },
+          "publishedAt": "2026-10-02T09:23:50.302Z",
+          "contentHash": "ca0d42c017fa035a",
+          "matchScore": 68,
+          "matchReason": "Moderate visual match: same product category and styling, minor variance in secondary details.",
+          "detectedVisualFeatures": [
+            "Matching colorway: Off-White",
+            "Matching silhouette: Boxy drop-shoulder silhouette, wide..."
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        },
+        {
+          "id": "meta_ad_300000030617284",
+          "platform": "meta",
+          "title": "Minimalist Collective Sponsored Video Campaign",
+          "caption": "Crafted with 280 GSM Heavyweight Combed Cotton and featuring Distressed Gothic/Serif Chest Typography. Experience the difference in quality. Free 30-day returns.",
+          "thumbnailUrl": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&q=80",
+          "videoUrl": "https://assets.mixkit.co/videos/preview/mixkit-eating-delicious-chocolate-truffles-42289-large.mp4",
+          "sourceUrl": "https://www.facebook.com/ads/library/?id=300000030617284",
+          "author": {
+            "name": "Minimalist Collective",
+            "handle": "minimalist_collective",
+            "verified": true,
+            "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=Minimalist Collective"
+          },
+          "adMetadata": {
+            "adId": "300000030617284",
+            "advertiserName": "Minimalist Collective",
+            "runningStatus": "Active",
+            "startedRunningDate": "Sep 26, 2026",
+            "platformsIncluded": [
+              "Facebook",
+              "Instagram",
+              "Audience Network",
+              "Messenger"
+            ],
+            "callToAction": "Claim Restock"
+          },
+          "metrics": {
+            "views": 63800,
+            "likes": 4040
+          },
+          "publishedAt": "2026-09-26T09:23:50.302Z",
+          "contentHash": "cf96a4b16d83a03f",
+          "matchScore": 74,
+          "matchReason": "High visual similarity: matches silhouette and 280 GSM Heavyweight Combed Cotton, worn in live real-world lifestyle demonstration.",
+          "detectedVisualFeatures": [
+            "Matching material: 280 GSM Heavyweight Combed Cotton",
+            "Matching graphic aesthetic: Distressed Gothic/Serif Chest Typography"
+          ],
+          "isMatch": true,
+          "isPreviouslySeen": false,
+          "searchId": "search_1791451427714_0acc9f1b"
+        }
+      ],
+      "createdAt": "2026-10-08T09:23:50.307Z"
+    }
+  ],
+  "bookmarks": []
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Product Video Discovery Dashboard",
+  "description": "Full-stack AI automation pipeline discovering 20+ Instagram Reels and 20+ Meta Ad Library videos with visual image-analysis scoring and deduplication.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
