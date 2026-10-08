@@ -184,8 +184,6 @@ Ensure your configuration file contains:
 ```env
 PORT=3000
 GEMINI_API_KEY="your_gemini_api_key_here"
-# Optional:
-OPENAI_API_KEY="sk-..."
 ```
 
 ### Running the Full-Stack Application
