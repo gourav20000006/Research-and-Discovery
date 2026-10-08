@@ -9,7 +9,7 @@ import { extractVisualAttributes } from './services/visionBrain.js';
 import { collectAllVideoSources, collectPlatformVideos } from './services/videoCollector.js';
 import { deduplicateVideos, clearSeenCache, getDeduplicationStats } from './services/deduplicator.js';
 import { saveSearchRecord, getSearchRecord, getAllSearches, clearSearchHistory, toggleBookmarkVideo, getBookmarks, TEST_EVIDENCE_RECORDS } from './services/db.js';
-import { SearchRecord, PipelineProgressEvent, VideoResult } from '../src/types/index.js';
+import { SearchRecord, PipelineProgressEvent, VideoResult } from './types.js';
 
 dotenv.config();
 

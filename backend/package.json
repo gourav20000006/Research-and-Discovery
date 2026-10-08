@@ -5,6 +5,7 @@
   "description": "Node.js backend for Product Video Discovery automation pipeline",
   "scripts": {
     "dev": "tsx server.ts",
+    "build": "tsc --noEmit",
     "start": "tsx server.ts"
   },
   "dependencies": {
