@@ -7,7 +7,7 @@
     },
     "backend": {
       "root": "backend",
-      "framework": null
+      "framework": "node"
     }
   },
   "rewrites": [
